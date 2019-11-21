@@ -19,13 +19,16 @@ public class Game extends Canvas implements Runnable {
 	private Random random;
 	
 	public Game() {
-		new Fenetre(LARGEUR, LONGUEUR, "POWER OF NEO", this);
 		handler = new Handler();
+		
+		this.addKeyListener(new KeyInput(handler));
+		
+		new Fenetre(LARGEUR, LONGUEUR, "POWER OF NEO", this);
+		
 		random = new Random();
 		
-		for(int i = 0; i < 50; i++) {
-			handler.addObject(new Player(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.Player));
-		}
+		handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player));
+
 		
 		
 	}
@@ -66,7 +69,7 @@ public class Game extends Canvas implements Runnable {
 			
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("FPS : " + frames);
+				//System.out.println("FPS : " + frames);
 				frames = 0;
 			}
 		}

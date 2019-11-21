@@ -10,8 +10,6 @@ public class Player extends GameObject{
 	
 	public Player(int x, int y, ID id) {
 		super(x, y, id);
-		velocite_X = random.nextInt(5) + 1;
-		velocite_Y = random.nextInt(5);
 	}
 
 	public void tick() {
