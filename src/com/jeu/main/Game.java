@@ -17,6 +17,7 @@ public class Game extends Canvas implements Runnable {
 	
 	private Handler handler;
 	private Random random;
+	private HUD hud;
 	
 	public Game() {
 		handler = new Handler();
@@ -25,11 +26,16 @@ public class Game extends Canvas implements Runnable {
 		
 		new Fenetre(LARGEUR, LONGUEUR, "POWER OF NEO", this);
 		
+		hud = new HUD();
+		
 		random = new Random();
 		
-		handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player));
-
-		
+		handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player, handler));
+		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
+		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
+		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
+		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
+		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
 		
 	}
 
@@ -49,6 +55,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void run() {
+		this.requestFocus();
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
@@ -78,6 +85,7 @@ public class Game extends Canvas implements Runnable {
 	
 	private void tick() {
 		handler.tick();
+		hud.tick();
 	}
 	
 	private void render() {
@@ -94,8 +102,19 @@ public class Game extends Canvas implements Runnable {
 		
 		handler.render(graphique);
 		
+		hud.render(graphique);
+		
 		graphique.dispose();
 		buffer.show();
+	}
+	
+	public static int clamp(int var, int min, int max) {
+		if(var >= max)
+			return var = max;
+		else if (var <= min)
+			return var = min;
+		else
+			return var;
 	}
 	
 	public static void main(String args[]) {

@@ -29,6 +29,9 @@ public class KeyInput extends KeyAdapter{
 				//key event J2
 			}*/
 		}
+		
+		if(key == KeyEvent.VK_ESCAPE) System.exit(1);
+		
 	}
 	
 	public void keyReleased(KeyEvent touche) {
