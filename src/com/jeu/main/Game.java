@@ -18,22 +18,22 @@ public class Game extends Canvas implements Runnable {
 	private Handler handler;
 	private Random random;
 	private HUD hud;
+	private Spawn spawner;
 	
 	public Game() {
 		handler = new Handler();
+		
+		
 		
 		this.addKeyListener(new KeyInput(handler));
 		
 		new Fenetre(LARGEUR, LONGUEUR, "POWER OF NEO", this);
 		
 		hud = new HUD();
-		
+		spawner = new Spawn(handler, hud);
 		random = new Random();
 		
 		handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player, handler));
-		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
-		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
-		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
 		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
 		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
 		
@@ -76,7 +76,7 @@ public class Game extends Canvas implements Runnable {
 			
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS : " + frames);
+				System.out.println("FPS : " + frames);
 				frames = 0;
 			}
 		}
@@ -86,6 +86,7 @@ public class Game extends Canvas implements Runnable {
 	private void tick() {
 		handler.tick();
 		hud.tick();
+		spawner.tick();
 	}
 	
 	private void render() {
