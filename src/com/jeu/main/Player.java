@@ -16,17 +16,17 @@ public class Player extends GameObject{
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 32, 32);
+		return new Rectangle((int)x, (int)y, 32, 32);
 	}
 	
 	public void tick() {
 		x += velocite_X;
 		y += velocite_Y;
 		
-		x = Game.clamp(x, 0, Game.LARGEUR - 37);
-		y = Game.clamp(y, 0, Game.LONGUEUR - 60);
+		x = Game.clamp((int)x, 0, Game.LARGEUR - 37);
+		y = Game.clamp((int)y, 0, Game.LONGUEUR - 60);
 		
-		handler.addObject(new Trail(x, y, ID.Trail, Color.white, 32, 32, 0.1f, handler));
+		handler.addObject(new Trail((int)x, (int)y, ID.Trail, Color.white, 32, 32, 0.1f, handler));
 		
 		collision();
 	}
@@ -36,7 +36,7 @@ public class Player extends GameObject{
 			
 			GameObject tempObject = handler.Objets.get(i);
 			
-			if (tempObject.getID() == ID.BasicEnemy || tempObject.getID() == ID.FastEnemy) { //TempObject est un BasicEnemy
+			if (tempObject.getID() == ID.BasicEnemy || tempObject.getID() == ID.FastEnemy || tempObject.getID() == ID.SmartEnemy) { //TempObject est un BasicEnemy
 				
 				if (getBounds().intersects(tempObject.getBounds())) {
 					//Collision Code
@@ -50,7 +50,7 @@ public class Player extends GameObject{
 
 	public void render(Graphics graphique) {
 		graphique.setColor(Color.white);
-		graphique.fillRect(x, y, 32, 32);
+		graphique.fillRect((int)x, (int)y, 32, 32);
 	}
 
 

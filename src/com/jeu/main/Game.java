@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
+
 public class Game extends Canvas implements Runnable {
 	
 	private static final long serialVersionUID = 7675194036398776689L;
@@ -23,8 +27,6 @@ public class Game extends Canvas implements Runnable {
 	public Game() {
 		handler = new Handler();
 		
-		
-		
 		this.addKeyListener(new KeyInput(handler));
 		
 		new Fenetre(LARGEUR, LONGUEUR, "POWER OF NEO", this);
@@ -36,7 +38,6 @@ public class Game extends Canvas implements Runnable {
 		handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player, handler));
 		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
 		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
-		
 	}
 
 	public synchronized void start() {
@@ -109,7 +110,7 @@ public class Game extends Canvas implements Runnable {
 		buffer.show();
 	}
 	
-	public static int clamp(int var, int min, int max) {
+	public static float clamp(float var, float min, float max) {
 		if(var >= max)
 			return var = max;
 		else if (var <= min)
@@ -118,8 +119,17 @@ public class Game extends Canvas implements Runnable {
 			return var;
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]){
 		new Game();
+		try {
+			URL url = Game.class.getResource("/neo.wav");
+			AudioClip clip = Applet.newAudioClip(url);
+			clip.play();
+			Thread.sleep(1000000000);
+		} catch (Exception e) {
+		  System.out.println(e);
+		}
+		
 	}
 	
 }
