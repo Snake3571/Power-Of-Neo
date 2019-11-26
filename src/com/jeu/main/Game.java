@@ -36,8 +36,7 @@ public class Game extends Canvas implements Runnable {
 		random = new Random();
 		
 		handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player, handler));
-		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
-		handler.addObject(new BasicEnemy(random.nextInt(LARGEUR), random.nextInt(LONGUEUR), ID.BasicEnemy, handler));
+		handler.addObject(new BasicEnemy(random.nextInt(Game.LARGEUR - 50), random.nextInt(Game.LONGUEUR - 50), ID.BasicEnemy, handler));
 	}
 
 	public synchronized void start() {
@@ -121,14 +120,14 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void main(String args[]){
 		new Game();
-		try {
+		/*try {
 			URL url = Game.class.getResource("/neo.wav");
 			AudioClip clip = Applet.newAudioClip(url);
 			clip.play();
 			Thread.sleep(1000000000);
 		} catch (Exception e) {
 		  System.out.println(e);
-		}
+		}*/
 		
 	}
 	
