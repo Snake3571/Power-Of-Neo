@@ -23,11 +23,22 @@ public class Game extends Canvas implements Runnable {
 	private Random random;
 	private HUD hud;
 	private Spawn spawner;
+	private Menu menu;
+	
+	public enum ETAT{
+		Menu,
+		Aide,
+		Jeu
+	};
+	
+	public ETAT EtatJeu = ETAT.Menu;
 	
 	public Game() {
 		handler = new Handler();
+		menu = new Menu(this, handler);
 		
 		this.addKeyListener(new KeyInput(handler));
+		this.addMouseListener(menu);
 		
 		new Fenetre(LARGEUR, LONGUEUR, "POWER OF NEO", this);
 		
@@ -35,8 +46,10 @@ public class Game extends Canvas implements Runnable {
 		spawner = new Spawn(handler, hud);
 		random = new Random();
 		
-		handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player, handler));
-		handler.addObject(new BasicEnemy(random.nextInt(Game.LARGEUR - 50), random.nextInt(Game.LONGUEUR - 50), ID.BasicEnemy, handler));
+		if(EtatJeu == ETAT.Jeu) {
+			handler.addObject(new Player(LARGEUR/2-32, LONGUEUR/2-32, ID.Player, handler));
+			handler.addObject(new BasicEnemy(random.nextInt(Game.LARGEUR - 50), random.nextInt(Game.LONGUEUR - 50), ID.BasicEnemy, handler));
+		}
 	}
 
 	public synchronized void start() {
@@ -85,8 +98,13 @@ public class Game extends Canvas implements Runnable {
 	
 	private void tick() {
 		handler.tick();
-		hud.tick();
-		spawner.tick();
+		
+		if (EtatJeu == ETAT.Jeu) {
+			hud.tick();
+			spawner.tick();
+		} else if (EtatJeu == ETAT.Menu) {
+			menu.tick();
+		}
 	}
 	
 	private void render() {
@@ -103,8 +121,12 @@ public class Game extends Canvas implements Runnable {
 		
 		handler.render(graphique);
 		
-		hud.render(graphique);
-		
+		if (EtatJeu == ETAT.Jeu) {
+			hud.render(graphique);
+		} else if (EtatJeu == ETAT.Menu || EtatJeu == ETAT.Aide) {
+			menu.render(graphique);
+		}
+
 		graphique.dispose();
 		buffer.show();
 	}
